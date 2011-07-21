@@ -33,7 +33,7 @@
       \hgroup:
         \h1 Concurrent programming with Go
 
-      \img[src=images/gophercolor.png height=128]
+      \img[src=images/gophercolor.png class=mascot]
       \p[class=center]:
           "Using the websocket package, [...] was able to add the web
           viewer on his train ride home."
@@ -42,8 +42,9 @@
           "We wrote [...] in two or three beers."
 
       <footer>
-        \p by Trịnh Hải Anh, Skunkworks
-        \p \a[href="twitter.com/chickamade"] @chickamade
+        \p July 24, 2011
+        \p by Trịnh Hải Anh, Web Server Engineer
+        \p <a href="http://twitter.com/chickamade">@chickamade</a> <a href="http://search.twitter.com/search?q=%23barcampsaigon">#barcampsaigon</a>
         \p \a[href="http://skunkworks.vn" class=green] Skunkworks.vn
       </footer>
     </section>
@@ -65,18 +66,18 @@
     <section>
       <hgroup>
          \h1 Why Go?
-         \h2[class=action] Concurrency!
+         \h2 Concurrency!
       </hgroup>  
       
       <ul>
-            \li[class=action] Writing multi-threaded programs is hard
-            \li[class=action] Too much emphasis on low-level details: locks, mutexes, condition variables
-            \li[class=action] Event callbacks are just a crippled API, where your code run single-threaded
+            \li Writing multi-threaded programs is hard
+            \li Too much emphasis on low-level details: locks, mutexes, ...
+            \li Asynchronous event callbacks are just a crippled API, where your code run single-threaded :(
       </ul>
     </section>
 
     <section>
-      \hgroup \h1 Communicating sequential processes
+      \hgroup \h1 CSP
 
       \li 
       \li Communication is therefore a form of synchronization
@@ -139,34 +140,31 @@ for {
       \p Share memory by communicating
       \p Goroutines owning data structures
     </section>
- 
 
     <section>
       \hgroup:
         \h1 Cool Go features I did't talk about ...
 
       <ul>
-        \li[class=action] Static compilation
-        \li[class=action] Call C/C++ code, or just run on bare hardware without OS
-        \li[class=action] Tools: IDEs, debugger, profiler, code linter
-        \li[class=action] Standard libraries: zip, jpeg, json, mime/multipart, utf8, websocket, ...
-        \li[class=action] Package management: <code>goinstall github.com/user/project</code>
-        \li[class=action] Duck typing: feels like Python
+        \li Static compilation
+        \li Call C/C++ code, or just run on bare hardware without OS
+        \li Tools: IDEs, debugger, profiler, code formatter
+        \li Standard libraries: zip, jpeg, json, mime/multipart, utf8, websocket, ...
+        \li Package management: <code>goinstall github.com/user/project</code>
+        \li Duck typing: feels like Python
       </ul>
     </section>
 
     <section>
        \hgroup \h1 A few bits of history
         <ul>
-            \li 1978, Tony Hoare "Communicating Sequential Processes"
+            \li 1978, "Communicating Sequential Processes" paper by Tony Hoare
             \li 1983, Occam, the first CSP language, runs on dedicated Transputer chip
-            \li 1985&ndash;1995, Rob &amp; Ken worked on Plan 9 OS and several CSP-based languages
-            \li 1998, Erlang released as open-source, concurrency based on Actor Model
-            \li 2006, Erlang gain support for SMP scheduling
+            \li 1985 &ndash; 1995, Rob Pike &amp; Ken Thompson worked on the Plan 9 OS and several CSP-based languages
+            \li 1998, Erlang open-source release, concurrency based on Actor Model
+            \li 2006, Erlang gained support for SMP scheduling
             \li 2009, Go went nuts!
-            \li:
-              July 2010, a prototype implementation of \code select
-              for the stackless module for PyPy
+            \li 2010 July, prototype implementation of channels <code>select</code> for the Stackless Python module in PyPy
         </ul>
     </section>
 
@@ -175,6 +173,18 @@ for {
             \li \a[href=http://golang.org/doc/go_tutorial.html] Golang tutorial
             \li Go-nuts
         </ul>
+    </section>
+
+    <section>
+      \hgroup \h1 Thank you!
+      <div class=twitter>
+        \img[src=images/followme.png]
+        \span[class=green] \a[href="http://twitter.com/chickamade" class=green] @chickamade
+      </div>
+
+      \p[class=padded\ center\ big] For more information about our company, visit <a href="http://skunkworks.vn/" class=green>Skunkworks.vn.</a> We are hiring!
+      
+      \a[href=http://skunkworks.vn/] \img [src=images/skunkworks.png class=logo]
     </section>
 
   </div>

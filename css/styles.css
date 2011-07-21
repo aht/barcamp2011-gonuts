@@ -4,27 +4,34 @@ body {
     font-size: 24px;
 }
 
-section { width: 75%; margin: 0 auto; }
+section { width: 75%; margin: 10px auto auto auto; }
 
-hgroup {
+.slide hgroup {
     font-weight: bold;
     line-height: 1.5;
     text-align: center;
     text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
-    margin-bottom: 24px;
+}
+.slide:not(:first-child) hgroup {
+    padding-bottom: 42px;
 }
 
+.slide h1 { font-size: 48px; color: #27aae1; }
+.slide h2 { font-size: 42px; color: #799d4d; }
+.slide a { text-decoration: none }
+.slide pre { font-size: 16px }
+.slide footer { text-align: right }
 
-#deck h1 { font-size: 48px; color: #27aae1; }
-#deck h2 { font-size: 42px; color: #799d4d; }
-#deck p, #deck li {
-    font-size: 24px;
-}
-#deck pre { font-size: 16px }
+.slide .center { text-align: center }
+.slide .padded { padding: 36px 0 }
+.slide .big { font-size: 42px }
+.slide .green { color: #799d4d }
 
-#deck section img { padding: 24px }
+.slide img.mascot { padding: 24px; height: 128px }
+.slide img.logo { height: 128px }
 
-#deck .center { text-align: center }
-#deck .green { color: #799d4d; }
+.twitter { width: 60%; margin: auto }
+.twitter span { font-size: 42px }
+.twitter img { display: inline; height: 180px; vertical-align: middle; padding-right: 20px }
 
-#deck footer { text-align: right }
+.slide footer p { padding: 0 }
