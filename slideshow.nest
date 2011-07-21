@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  
+  <!--[if lt IE 9]>
+  <script src="../lib/html5shim.js"></script>
+  <![endif]-->  
+  
+  <!-- These are some core styles the slideshow app requires -->
+  <link rel="stylesheet" href="../lib/styles.css" />
+  
+  <!-- These are the styles you'll add to make the slides look great -->
+  <link rel="stylesheet" href="css/styles.css" />
+  
+  <title>Go @ Barcamp Saigon</title>
+</head>
+<body>
+  <header>
+    <h1>Go @ Barcamp Saigon</h1>
+    <nav>
+      <ul>
+        <li><button id="prev-btn" title="Previous slide">Previous Slide</button></li>
+        <li><span id="slide-number"></span>/<span id="slide-total"></span></li>
+        <li><button id="next-btn" title="Next Slide">Next Slide</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="deck">
+    
+    <section>
+      \hgroup:
+        \h1 Concurrent programming with Go
+
+      \img[src=images/gophercolor.png height=128]
+      \p[class=center]:
+          "Using the websocket package, [...] was able to add the web
+          viewer on his train ride home."
+
+      \p[class=center]:
+          "We wrote [...] in two or three beers."
+
+      <footer>
+        \p by Trịnh Hải Anh, Skunkworks
+        \p \a[href="twitter.com/chickamade"] @chickamade
+        \p \a[href="http://skunkworks.vn" class=green] Skunkworks.vn
+      </footer>
+    </section>
+    
+    <section>
+      \hgroup:
+        \h1 What is Go?
+      
+      <ul>
+        \li Started at Googlers by Ken Thompson, Rob Pike, ...
+        \li Design philosophy: \span[class=green] less is more
+        \li Attractive model to write <span class=green>concurrent programs</span>
+        \li Originally focused on system projects: databases, networking servers
+        \li Has become a general purpose language
+        \li Makes programming sensible and fun!
+      </ul>
+    </section>
+
+    <section>
+      <hgroup>
+         \h1 Why Go?
+         \h2[class=action] Concurrency!
+      </hgroup>  
+      
+      <ul>
+            \li[class=action] Writing multi-threaded programs is hard
+            \li[class=action] Too much emphasis on low-level details: locks, mutexes, condition variables
+            \li[class=action] Event callbacks are just a crippled API, where your code run single-threaded
+      </ul>
+    </section>
+
+    <section>
+      \hgroup \h1 Communicating sequential processes
+
+      \li 
+      \li Communication is therefore a form of synchronization
+    </section>
+
+    <section>
+      \hgroup \h1 Concurrency primitives
+      
+      <pre>
+input := make(chan string)
+output := make(chan string)
+
+go {
+    input &lt;- "from forked goroutine" // blocks until there is a receiver
+}
+go {
+    for {
+       // relay input to output then exits, blocks on receiving, then block on sending
+        output &lt;- (&lt;-input)
+    }
+}
+for {
+    select {
+        case msg := &lt;-output: fmt.Println(msg)
+        case input &lt;- "from main": // just send it, do nothing else
+    }
+}
+      </pre>
+    </section>
+ 
+    <section>
+      \hgroup \h1 Goroutines
+
+      \p A goroutine is a Go function or method executing concurrently in the same address space as other goroutines. A running program consists of one or more goroutines.
+    </section>
+
+    <section>
+      \hgroup \h1 Channels &amp; Synchronization
+    </section>
+
+    <section>
+      \hgroup \h1 Select
+
+      \p Every case must be a communication
+      \p If any communication can proceed, it does; others are ignored
+      \p If multiple cases are ready, one is selected at random, fairly. Others do not execute.
+      \p - Otherwise: - If there is a default clause, that runs - If there is no default, select statement blocks until one communication can proceed;
+    </section>
+
+    <section>
+      \hgroup \h1 Scheduling
+    </section>
+ 
+    <section>
+      \hgroup \h1 Asynchronous I/O
+    </section>
+
+    <section>
+      \hgroup \h1 The Go Way
+      \p Share memory by communicating
+      \p Goroutines owning data structures
+    </section>
+ 
+
+    <section>
+      \hgroup:
+        \h1 Cool Go features I did't talk about ...
+
+      <ul>
+        \li[class=action] Static compilation
+        \li[class=action] Call C/C++ code, or just run on bare hardware without OS
+        \li[class=action] Tools: IDEs, debugger, profiler, code linter
+        \li[class=action] Standard libraries: zip, jpeg, json, mime/multipart, utf8, websocket, ...
+        \li[class=action] Package management: <code>goinstall github.com/user/project</code>
+        \li[class=action] Duck typing: feels like Python
+      </ul>
+    </section>
+
+    <section>
+       \hgroup \h1 A few bits of history
+        <ul>
+            \li 1978, Tony Hoare "Communicating Sequential Processes"
+            \li 1983, Occam, the first CSP language, runs on dedicated Transputer chip
+            \li 1985&ndash;1995, Rob &amp; Ken worked on Plan 9 OS and several CSP-based languages
+            \li 1998, Erlang released as open-source, concurrency based on Actor Model
+            \li 2006, Erlang gain support for SMP scheduling
+            \li 2009, Go went nuts!
+            \li:
+              July 2010, a prototype implementation of \code select
+              for the stackless module for PyPy
+        </ul>
+    </section>
+
+    <section>
+        <ul>
+            \li \a[href=http://golang.org/doc/go_tutorial.html] Golang tutorial
+            \li Go-nuts
+        </ul>
+    </section>
+
+  </div>
+  <!-- /deck -->
+  
+  <script src="../lib/jquery-1.5.2.min.js"></script>
+  <script src="../lib/jquery.jswipe-0.1.2.js"></script>  
+  <script src="../lib/htmlSlides.js"></script>
+  <script>
+    //Do our business when the DOM is ready for us
+    $(function() {
+      
+      //You can trigger Javascript based on the slide number like this:
+      $('html').bind('newSlide', function(e, id) { 
+        //switch(id) {
+        //  case 1:
+        //}
+      });
+
+      //One little option: hideToolbar (boolean; default = false)
+      htmlSlides.init({ hideToolbar: true });
+      
+    });
+  </script>
+  </body>
+</html>

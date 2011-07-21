@@ -1,0 +1,30 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial;
+    background: white;
+    font-size: 24px;
+}
+
+section { width: 75%; margin: 0 auto; }
+
+hgroup {
+    font-weight: bold;
+    line-height: 1.5;
+    text-align: center;
+    text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8);
+    margin-bottom: 24px;
+}
+
+
+#deck h1 { font-size: 48px; color: #27aae1; }
+#deck h2 { font-size: 42px; color: #799d4d; }
+#deck p, #deck li {
+    font-size: 24px;
+}
+#deck pre { font-size: 16px }
+
+#deck section img { padding: 24px }
+
+#deck .center { text-align: center }
+#deck .green { color: #799d4d; }
+
+#deck footer { text-align: right }
