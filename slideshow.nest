@@ -162,27 +162,6 @@ func main() {
         \li If there is no default case, the select statement blocks until one case can proceed
       </ul>
     </section>
- 
-    <section>
-      \hgroup \h1 Asynchronous I/O
-      
-      <ul>
-        \li Async I/O is kernel optimizations
-        \li Some libraries implement system calls and expose a callback API :(
-        \li Go use epoll/kqueue under the hood, goroutine is automatically rescheduled after epoll_wait()
-       </ul>
-    </section>
-
-    <section>
-      \hgroup \h1 Networking
-      \pre
-      // create listening socket
-      for {
-          conn, error := listener.Accept()
-          // handle error
-          go serve(conn)
-      }
-      </pre>
 
     <section>
       \hgroup \h1 The Go Way
@@ -197,6 +176,27 @@ func main() {
        \hgroup \h1 A concurrent windows system
        \img[src=images/cws.png style="margin: 20px 0 0 380px"]
        \footer \p[class=small] Rob Pike, <a href="http://swtch.com/~rsc/thread/cws.pdf">"A Concurrent Window System,"</a> Computing Systems, 2(2)
+    </section>
+
+    <section>
+      \hgroup \h1 Networking
+      \pre
+      // create listening socket
+      for {
+          conn, error := listener.Accept()
+          // handle error
+          go serve(conn)
+      }
+      </pre>
+ 
+    <section>
+      \hgroup \h1 Asynchronous I/O
+      
+      <ul>
+        \li epoll/kqueue are kernel optimizations to deal with accepting ten thousands of connections (the C10K problem)
+        \li Many libraries implement these system calls and expose to client a crippled callback API :(
+        \li Go networking code use epoll/kqueue under the hood, a goroutine simply go to sleep after epoll_wait() just like after any other system call
+       </ul>
     </section>
 
     <section>
