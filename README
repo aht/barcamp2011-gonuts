@@ -1,6 +1,8 @@
 This is the source code for my Barcamp Saigon 2011 talks on the Go
 language and concurrency.
 
+The HTML presentation is at http://aht.github.com/barcamp2011-gonuts/.
+
 To make the HTML file, you'll need http://github.com/aht/nest/.
 
 There are two sample Go programs:
