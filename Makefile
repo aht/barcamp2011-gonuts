@@ -1,7 +1,7 @@
 all: slideshow primitives echosrv
 
 slideshow:
-	~/src/nest/script/n2x slideshow.nest > slideshow.html
+	~/src/nest/script/n2x slideshow.nest > index.html
 
 primitives: primitives.go
 	6g primitives.go && 6l -o primitives primitives.6
