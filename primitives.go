@@ -1,11 +1,5 @@
 package main
 
-import (
-      "fmt"
-      "os"
-      "os/signal"
-)
-
 func main() {
       c := make(chan string)
       d := make(chan string)
@@ -24,12 +18,9 @@ func main() {
       for {
           select {
           case val := <-c:
-              fmt.Println(val)
+              println(val)
           case val := <-d:
-              fmt.Println(val)
-          case sig := <-signal.Incoming:
-              fmt.Println("got signal:", sig)
-              os.Exit(0)
+              println(val)
           }
       }
 }

@@ -107,24 +107,31 @@
       \hgroup \h1 Code example
       
       <pre>
-input := make(chan string)
-output := make(chan string)
+func main() {
+      c := make(chan string)
+      d := make(chan string)
 
-go {
-    input &lt;- "from forked goroutine" // blocks until there is a receiver
+      go func() {
+          for {
+              c <- "value from goroutine" // sending blocks until there is a receiver
+          }
+      }()
+      go func() {
+          for {
+              d <- ("processed " + <-c) // process received value, then send it out
+          }
+      }()
+
+      for {
+          select {
+          case val := <-c:
+              println(val)
+          case val := <-d:
+              println(val)
+          }
+      }
 }
-go {
-    for {
-       // relay input to output then exits, blocks on receiving, then block on sending
-        output &lt;- (&lt;-input)
-    }
-}
-for {
-    select {
-        case msg := &lt;-output: fmt.Println(msg)
-        case input &lt;- "from main": // just send it, do nothing else
-    }
-}
+
       </pre>
     </section>
 
@@ -228,9 +235,8 @@ for {
       
       //You can trigger Javascript based on the slide number like this:
       $('html').bind('newSlide', function(e, id) { 
-        //switch(id) {
-        //  case 1:
-        //}
+        switch(id) {
+        }
       });
 
       //One little option: hideToolbar (boolean; default = false)
