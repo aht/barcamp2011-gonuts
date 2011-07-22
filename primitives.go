@@ -12,12 +12,12 @@ func main() {
 
       go func() {
           for {
-              c <- "value from goroutine" // blocks until there is a receiver
+              c <- "value from goroutine" // sending blocks until there is a receiver
           }
       }()
       go func() {
           for {
-              d <- ("processed " + <-c) // blocks on receiving, then block on sending
+              d <- ("processed " + <-c) // process received value, then send it out
           }
       }()
 

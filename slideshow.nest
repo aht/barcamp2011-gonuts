@@ -78,13 +78,33 @@
 
     <section>
       \hgroup \h1 CSP
-
-      \li 
-      \li Communication is therefore a form of synchronization
+    <ul>
+      <li>
+        In 1978, Tony Hoare introduced the theory of "Communicating Sequential Processes"
+        \blockquote \em Input, output, and concurrency should be regarded as primitives of programming
+        \blockquote \em Composition of communicating sequential processes is a fundamental program structuring method.
+      </li>
+      \li Occam and Erlang are two well-known languages that stem from CSP
+      \li In Go, concurrency primitives derive from a different part of the CSP family tree with the powerful notion of channels as first class objects
+    </ul>
+    </section>
+ 
+    <section>
+      \hgroup \h1 Goroutines
+     <ul>
+      \li A goroutine is a Go function or method executing concurrently in the same address space as other goroutines
+      \li Goroutines are multiplexed onto a set of operating system threads
+      \li When a goroutine blocks, such as by calling a blocking system call, the runtime automatically moves other coroutines to runnable thread
+      \li It is practical to create hundreds of thousands of goroutines
+     </ul>
     </section>
 
     <section>
-      \hgroup \h1 Concurrency primitives
+      \hgroup \h1 Channels &amp; Synchronization
+    </section>
+
+    <section>
+      \hgroup \h1 Code example
       
       <pre>
 input := make(chan string)
@@ -107,51 +127,57 @@ for {
 }
       </pre>
     </section>
- 
-    <section>
-      \hgroup \h1 Goroutines
-
-      \p A goroutine is a Go function or method executing concurrently in the same address space as other goroutines. A running program consists of one or more goroutines.
-    </section>
-
-    <section>
-      \hgroup \h1 Channels &amp; Synchronization
-    </section>
 
     <section>
       \hgroup \h1 Select
-
-      \p Every case must be a communication
-      \p If any communication can proceed, it does; others are ignored
-      \p If multiple cases are ready, one is selected at random, fairly. Others do not execute.
-      \p - Otherwise: - If there is a default clause, that runs - If there is no default, select statement blocks until one communication can proceed;
-    </section>
-
-    <section>
-      \hgroup \h1 Scheduling
+      
+      <ul>
+        \li Every case must be a communication
+        \li If any communication can proceed, it does; others are ignored
+        \li If multiple cases are ready, one is selected to proceed at random, fairly
+        \li If there is no default case, the select statement blocks until one case can proceed
+      </ul>
     </section>
  
     <section>
       \hgroup \h1 Asynchronous I/O
+      
+      \p Async I/O is kernel optimizations
+      \p Some libraries implement system calls and expose a callback API :(
+      \p Go use epoll/kqueue under the hood, goroutine is automatically rescheduled after epoll_wait()
+    </section>
+
+    <section>
+      \hgroup \h1 Networking
+      
+      \p Awesome
     </section>
 
     <section>
       \hgroup \h1 The Go Way
-      \p Share memory by communicating
-      \p Goroutines owning data structures
+      <ul>
+        \li Do not communicate by sharing memory. Instead, share memory by communicating.
+        \li Shared values should be passed around on channels. Only one goroutine should "own" a value at any given time.
+        \li Channel (or set of channels) defines a protocol of interaction with a given resource.
+        \li E.g. Rob Pike built a concurrent window system represented by 3 channels: graphics, keyboard, mouse. The window system can run recursively on itself to implement a multi-window text editors.
+    </section>
+
+    <section>
+       \img[src=images/cws.png]
     </section>
 
     <section>
       \hgroup:
-        \h1 Cool Go features I did't talk about ...
+        \h1 Go is a lot more than concurrency
 
       <ul>
-        \li Static compilation
+        \li Duck typing: feels like Python
+        \li Segmented stack: no chance of stack overflow
+        \li Static compilation, single binary deployment
         \li Call C/C++ code, or just run on bare hardware without OS
-        \li Tools: IDEs, debugger, profiler, code formatter
+        \li Tools: IDEs, goroutine-aware debugger, profiler, code formatter
         \li Standard libraries: zip, jpeg, json, mime/multipart, utf8, websocket, ...
         \li Package management: <code>goinstall github.com/user/project</code>
-        \li Duck typing: feels like Python
       </ul>
     </section>
 
@@ -169,14 +195,17 @@ for {
     </section>
 
     <section>
+      \hgroup \h1 Where to go from here?
         <ul>
-            \li \a[href=http://golang.org/doc/go_tutorial.html] Golang tutorial
-            \li Go-nuts
+            \li \a[href=http://golang.org/doc/go_tutorial.html] The official Go language tutorial
+            \li Go-nuts mailing list
+            \li #go-nuts IRC channel on freenode.org
+            \li \a[href=http://golang.org/doc/codewalk/] Go code walks
         </ul>
     </section>
 
     <section>
-      \hgroup \h1 Thank you!
+      \hgroup \h1 Thank you! Questions?
       <div class=twitter>
         \img[src=images/followme.png]
         \span[class=green] \a[href="http://twitter.com/chickamade" class=green] @chickamade
