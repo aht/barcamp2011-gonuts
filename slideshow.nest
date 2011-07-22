@@ -110,7 +110,7 @@
     </section>
 
     <section>
-      \hgroup \h1 Example & demo
+      \hgroup \h1 Concurrency primitives demo
       
       <pre>
 func main() {
@@ -179,24 +179,41 @@ func main() {
     </section>
 
     <section>
-      \hgroup \h1 Networking
+      \hgroup \h1 TCP echo server demo
+      \p spawns multiple goroutines, does error handling and logging in 19 lines :)
       \pre
-      // create listening socket
-      for {
-          conn, error := listener.Accept()
-          // handle error
-          go serve(conn)
-      }
+package main
+
+import ("net"; "io"; "os"; "log")
+
+func die(err os.Error) {
+    if err != nil { log.Fatal(err) }
+}
+
+func main() {
+    listener, err := net.Listen("tcp", "127.0.0.1:3640"); die(err)
+    for {
+        conn, err := listener.Accept(); die(err)
+        go func() {
+            defer conn.Close()
+            n, err := io.Copy(conn, conn); die(err)
+            log.Printf("echoed %d byte from %s\\n", n, conn.RemoteAddr())
+        }()
+    }
+}
       </pre>
+      \footer \a[target=_blank href=http://github.com/aht/barcamp2011-gonuts/blob/master/echosrv.go] http://github.com/aht/barcamp2011-gonuts/blob/master/echosrv.go
+    </section>
  
     <section>
       \hgroup \h1 Asynchronous I/O
       
       <ul>
-        \li epoll/kqueue are kernel optimizations to deal with accepting ten thousands of connections (the C10K problem)
+        \li <code>epoll/kqueue</code> are kernel optimizations to deal with accepting ten thousands of connections (the C10K problem)
         \li Many libraries implement these system calls and expose to client a crippled callback API :(
-        \li Go networking code use epoll/kqueue under the hood, a goroutine simply go to sleep after epoll_wait() just like after any other system call
-       </ul>
+        \li Go networking code use <code>epoll/kqueue</code> under the hood: server with goroutines can handle 10K concurrent clients
+      </ul>
+      \footer \a[href=http://www.kegel.com/c10k.html] http://www.kegel.com/c10k.html
     </section>
 
     <section>
@@ -232,8 +249,8 @@ func main() {
         <ul>
             \li \a[href=http://golang.org/doc/go_tutorial.html] The official Go language tutorial
             \li \a[href=http://golang.org/doc/codewalk/] Go codewalks
-            \li go-nuts: the official mailing list
-            \li #go-nuts IRC channel on freenode.org
+            <li> <a href=http://groups.google.com/group/golang-nuts>golang-nuts</a> &mdash; the official mailing list
+            \li <a href=irc://freenode.org:6666/#go-nuts>#go-nuts</a> &mdash; IRC channel on freenode.org
         </ul>
     </section>
 
@@ -263,7 +280,7 @@ func main() {
       $('html').bind('newSlide', function(e, id) { 
         switch(id) {
         case 1:
-        case 12: $('body').removeClass('roctopus').addClass('loctopus');
+        case 10: $('body').removeClass('roctopus').addClass('loctopus');
           break;
         case 16: $('body').removeClass('loctopus roctopus');
           break;
