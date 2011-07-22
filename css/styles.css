@@ -2,7 +2,13 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial;
     background: white;
     font-size: 24px;
+}
+
+body.loctopus {
     background: url("../images/octopus.png") no-repeat -128px center fixed;
+}
+body.roctopus {
+    background: url("../images/octopus.png") no-repeat right center fixed;
 }
 
 section { width: 80%; margin: 10px auto auto auto; }
@@ -20,9 +26,17 @@ section { width: 80%; margin: 10px auto auto auto; }
 .slide h1 { font-size: 48px; color: #27aae1; }
 .slide h2 { font-size: 42px; color: #799d4d; }
 .slide a { text-decoration: none }
-.slide li { padding: 10px }
+.slide p { max-width: 33em; }
+.slide li { padding: 10px; max-width: 33em; }
 .slide pre { font-size: 16px }
-.slide footer { margin-top: 20px; text-align: right }
+.slide footer {
+    margin-top: 20px;
+    text-align: right;
+    float: right;
+    position: fixed;
+    right: 10%;
+    bottom: 5%;
+}
 
 .slide em { color: #799d4d; font-style: normal }
 .slide strong { color: #799d4d; font-weight: bold }
@@ -32,7 +46,7 @@ section { width: 80%; margin: 10px auto auto auto; }
 .slide .big { font-size: 42px }
 .slide .green { color: #799d4d }
 
-.slide img.mascot { padding: 24px; height: 128px }
+.slide img.mascot { padding: 42px; height: 128px }
 .slide img.logo { height: 128px }
 
 .twitter { width: 60%; margin: auto }

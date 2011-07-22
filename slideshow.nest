@@ -92,15 +92,21 @@
     <section>
       \hgroup \h1 Goroutines
      <ul>
-      \li A goroutine is a Go function or method executing concurrently in the same address space as other goroutines
+      \li Goroutines are functions executing concurrently in the same address space
       \li Goroutines are multiplexed onto a set of operating system threads
-      \li When a goroutine blocks, such as by calling a blocking system call, the runtime automatically moves other coroutines to runnable thread
+      \li When a goroutine blocks, such as in a system call, the Go runtime automatically moves other goroutines to another runnable thread
       \li It is practical to create hundreds of thousands of goroutines
      </ul>
     </section>
 
     <section>
-      \hgroup \h1 Channels &amp; Synchronization
+      \hgroup \h1 Channels
+      
+      <ul>
+        \li Goroutines communicat via channels
+        \li Channel is the point of synchronization: the sender and receiver both unblocks at the rendezvous point to exchange a datum
+        \li Channel are first-class values, and can represent capabilities
+      </ul>
     </section>
 
     <section>
@@ -131,13 +137,22 @@ func main() {
           }
       }
 }
-
       </pre>
     </section>
 
     <section>
       \hgroup \h1 Select
       
+      <pre>
+              select {
+              case x = <-c:
+                  // receive x from c
+              case d <- y:
+                  // send y to d
+              default:
+                  // non-blocking case
+              }
+      </pre>
       <ul>
         \li Every case must be a communication
         \li If any communication can proceed, it does; others are ignored
@@ -149,9 +164,11 @@ func main() {
     <section>
       \hgroup \h1 Asynchronous I/O
       
-      \p Async I/O is kernel optimizations
-      \p Some libraries implement system calls and expose a callback API :(
-      \p Go use epoll/kqueue under the hood, goroutine is automatically rescheduled after epoll_wait()
+      <ul>
+        \p Async I/O is kernel optimizations
+        \p Some libraries implement system calls and expose a callback API :(
+        \p Go use epoll/kqueue under the hood, goroutine is automatically rescheduled after epoll_wait()
+       </ul>
     </section>
 
     <section>
@@ -170,18 +187,19 @@ func main() {
     </section>
 
     <section>
-       \img[src=images/cws.png]
+       \hgroup \h1 A concurrent windows system
+       \img[src=images/cws.png style="margin: 20px 0 0 380px"]
     </section>
 
     <section>
-      \hgroup:
-        \h1 Go is a lot more than concurrency
+      \hgroup \h1 Go is a lot more than concurrency
 
       <ul>
         \li Duck typing: feels like Python
-        \li Segmented stack: no chance of stack overflow
+        \li Segmented stack: stack overflow not possible
         \li Static compilation, single binary deployment
-        \li Call C/C++ code, or just run on bare hardware without OS
+        \li Call C/C++ code
+        \li Run on bare hardware without OS
         \li Tools: IDEs, goroutine-aware debugger, profiler, code formatter
         \li Standard libraries: zip, jpeg, json, mime/multipart, utf8, websocket, ...
         \li Package management: <code>goinstall github.com/user/project</code>
@@ -191,13 +209,13 @@ func main() {
     <section>
        \hgroup \h1 A few bits of history
         <ul>
-            \li 1978, "Communicating Sequential Processes" paper by Tony Hoare
-            \li 1983, Occam, the first CSP language, runs on dedicated Transputer chip
-            \li 1985 &ndash; 1995, Rob Pike &amp; Ken Thompson worked on the Plan 9 OS and several CSP-based languages
-            \li 1998, Erlang open-source release, concurrency based on Actor Model
-            \li 2006, Erlang gained support for SMP scheduling
-            \li 2009, Go went nuts!
-            \li 2010 July, prototype implementation of channels <code>select</code> for the Stackless Python module in PyPy
+            \li <em>1978</em>, "Communicating Sequential Processes" paper by Tony Hoare
+            \li <em>1983</em>, Occam, the first CSP language, runs on dedicated Transputer chip
+            \li <em>1985 &ndash; 1995</em>, Rob Pike &amp; Ken Thompson worked on the Plan 9 OS and several CSP-based languages
+            \li <em>1998</em>, Erlang open-source release, concurrency based on Actor Model
+            \li <em>2006</em>, Erlang gained support for SMP scheduling
+            \li <em>2009</em>, Go went nuts!
+            \li <em>July 2010</em>, an implementation of <code>select</code> was prototyped for the Stackless Python module in PyPy
         </ul>
     </section>
 
@@ -236,6 +254,12 @@ func main() {
       //You can trigger Javascript based on the slide number like this:
       $('html').bind('newSlide', function(e, id) { 
         switch(id) {
+        case 1:
+        case 12: $('body').removeClass('roctopus').addClass('loctopus');
+          break;
+        case 16: $('body').removeClass('loctopus roctopus');
+          break;
+        default: $('body').removeClass('loctopus').addClass('roctopus');
         }
       });
 
