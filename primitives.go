@@ -6,12 +6,12 @@ func main() {
 
       go func() {
           for {
-              c <- "value from goroutine" // sending blocks until there is a receiver
+              c <- "msg" // sending blocks until there is a receiver
           }
       }()
       go func() {
           for {
-              d <- ("processed " + <-c) // process received value, then send it out
+              d <- ("relayed " + <-c) // process received value, then send it out
           }
       }()
 

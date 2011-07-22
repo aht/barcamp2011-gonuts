@@ -103,14 +103,14 @@
       \hgroup \h1 Channels
       
       <ul>
-        \li Goroutines communicat via channels
-        \li Channel is the point of synchronization: the sender and receiver both unblocks at the rendezvous point to exchange a datum
-        \li Channel are first-class values, and can represent capabilities
+        \li Goroutines communicate via channels
+        \li Channel is the way of synchronization: the sender and receiver both unblocks at the rendezvous moment to exchange a datum
+        \li Channel are first-class values in Go, can be passed around &amp; can represent capabilities
       </ul>
     </section>
 
     <section>
-      \hgroup \h1 Code example
+      \hgroup \h1 Example & demo
       
       <pre>
 func main() {
@@ -119,12 +119,12 @@ func main() {
 
       go func() {
           for {
-              c <- "value from goroutine" // sending blocks until there is a receiver
+              c <- "msg" // sending blocks until there is a receiver
           }
       }()
       go func() {
           for {
-              d <- ("processed " + <-c) // process received value, then send it out
+              d <- ("relayed " + <-c) // process received value, then send it out
           }
       }()
 
@@ -138,6 +138,8 @@ func main() {
       }
 }
       </pre>
+      
+      \footer \a[target=_blank href="http://golang.org/doc/play/#package%20main%0A%0Afunc%20main%28%29%20%7B%0A%20%20%20%20%20%20c%20%3A%3D%20make%28chan%20string%29%0A%20%20%20%20%20%20d%20%3A%3D%20make%28chan%20string%29%0A%0A%20%20%20%20%20%20go%20func%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20c%20%3C-%20%22msg%22%20//%20sending%20blocks%20until%20there%20is%20a%20receiver%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%28%29%0A%20%20%20%20%20%20go%20func%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20d%20%3C-%20%28%22relayed%20%22%20%2B%20%3C-c%29%20//%20process%20received%20value%2C%20then%20send%20it%20out%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%28%29%0A%0A%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20select%20%7B%0A%20%20%20%20%20%20%20%20%20%20case%20val%20%3A%3D%20%3C-c%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20println%28val%29%0A%20%20%20%20%20%20%20%20%20%20case%20val%20%3A%3D%20%3C-d%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20println%28val%29%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%7D%0A"] Run in the Go playground
     </section>
 
     <section>
@@ -146,9 +148,9 @@ func main() {
       <pre>
               select {
               case x = <-c:
-                  // receive x from c
+                  // x was received from c
               case d <- y:
-                  // send y to d
+                  // y was sent to d
               default:
                   // non-blocking case
               }
