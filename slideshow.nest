@@ -93,7 +93,7 @@
       \hgroup \h1 Goroutines
      <ul>
       \li Goroutines are functions executing concurrently in the same address space
-      \li Goroutines are multiplexed onto a set of operating system threads
+      \li Goroutines are multiplexed onto a set of system threads
       \li When a goroutine blocks, such as in a system call, the Go runtime automatically moves other goroutines to another runnable thread
       \li It is practical to create hundreds of thousands of goroutines
      </ul>
@@ -105,7 +105,7 @@
       <ul>
         \li Goroutines communicate via channels
         \li Channel is the way of synchronization: the sender and receiver both unblocks at the rendezvous moment to exchange a datum
-        \li Channel are first-class values in Go, can be passed around &amp; can represent capabilities
+        \li Channel can be abstracted over network
       </ul>
     </section>
 
@@ -167,17 +167,22 @@ func main() {
       \hgroup \h1 Asynchronous I/O
       
       <ul>
-        \p Async I/O is kernel optimizations
-        \p Some libraries implement system calls and expose a callback API :(
-        \p Go use epoll/kqueue under the hood, goroutine is automatically rescheduled after epoll_wait()
+        \li Async I/O is kernel optimizations
+        \li Some libraries implement system calls and expose a callback API :(
+        \li Go use epoll/kqueue under the hood, goroutine is automatically rescheduled after epoll_wait()
        </ul>
     </section>
 
     <section>
       \hgroup \h1 Networking
-      
-      \p Awesome
-    </section>
+      \pre
+      // create listening socket
+      for {
+          conn, error := listener.Accept()
+          // handle error
+          go serve(conn)
+      }
+      </pre>
 
     <section>
       \hgroup \h1 The Go Way
@@ -226,9 +231,9 @@ func main() {
       \hgroup \h1 Where to go from here?
         <ul>
             \li \a[href=http://golang.org/doc/go_tutorial.html] The official Go language tutorial
-            \li Go-nuts mailing list
+            \li \a[href=http://golang.org/doc/codewalk/] Go codewalks
+            \li go-nuts: the official mailing list
             \li #go-nuts IRC channel on freenode.org
-            \li \a[href=http://golang.org/doc/codewalk/] Go code walks
         </ul>
     </section>
 
