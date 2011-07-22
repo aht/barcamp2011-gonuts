@@ -43,6 +43,7 @@ section { width: 80%; margin: 10px auto auto auto; }
 
 .slide .center { text-align: center }
 .slide .padded { padding: 36px 0 }
+.slide .small { font-size: 16px }
 .slide .big { font-size: 42px }
 .slide .green { color: #799d4d }
 

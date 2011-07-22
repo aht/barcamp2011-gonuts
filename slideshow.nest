@@ -54,7 +54,7 @@
         \h1 What is Go?
       
       <ul>
-        \li Started at Googlers by Ken Thompson, Rob Pike, ...
+        \li Started at Google by Ken Thompson, Rob Pike, ...
         \li Design philosophy: \span[class=green] less is more
         \li Attractive model to write <span class=green>concurrent programs</span>
         \li Originally focused on system projects: databases, networking servers
@@ -139,7 +139,7 @@ func main() {
 }
       </pre>
       
-      \footer \a[target=_blank href="http://golang.org/doc/play/#package%20main%0A%0Afunc%20main%28%29%20%7B%0A%20%20%20%20%20%20c%20%3A%3D%20make%28chan%20string%29%0A%20%20%20%20%20%20d%20%3A%3D%20make%28chan%20string%29%0A%0A%20%20%20%20%20%20go%20func%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20c%20%3C-%20%22msg%22%20//%20sending%20blocks%20until%20there%20is%20a%20receiver%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%28%29%0A%20%20%20%20%20%20go%20func%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20d%20%3C-%20%28%22relayed%20%22%20%2B%20%3C-c%29%20//%20process%20received%20value%2C%20then%20send%20it%20out%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%28%29%0A%0A%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20select%20%7B%0A%20%20%20%20%20%20%20%20%20%20case%20val%20%3A%3D%20%3C-c%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20println%28val%29%0A%20%20%20%20%20%20%20%20%20%20case%20val%20%3A%3D%20%3C-d%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20println%28val%29%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%7D%0A"] Run in the Go playground
+      \footer \a[target=_blank href="http://golang.org/doc/play/#package%20main%0A%0Afunc%20main%28%29%20%7B%0A%20%20%20%20%20%20c%20%3A%3D%20make%28chan%20string%29%0A%20%20%20%20%20%20d%20%3A%3D%20make%28chan%20string%29%0A%0A%20%20%20%20%20%20go%20func%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20c%20%3C-%20%22msg%22%20//%20sending%20blocks%20until%20there%20is%20a%20receiver%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%28%29%0A%20%20%20%20%20%20go%20func%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20d%20%3C-%20%28%22relayed%20%22%20%2B%20%3C-c%29%20//%20process%20received%20value%2C%20then%20send%20it%20out%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%28%29%0A%0A%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20select%20%7B%0A%20%20%20%20%20%20%20%20%20%20case%20val%20%3A%3D%20%3C-c%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20println%28val%29%0A%20%20%20%20%20%20%20%20%20%20case%20val%20%3A%3D%20%3C-d%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20println%28val%29%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%7D%0A"] Try this example in the Go playground!
     </section>
 
     <section>
@@ -181,8 +181,8 @@ func main() {
 
     <section>
       \hgroup \h1 The Go Way
+      \blockquote \em Do not communicate by sharing memory. <br /> Instead, share memory by communicating.
       <ul>
-        \li Do not communicate by sharing memory. Instead, share memory by communicating.
         \li Shared values should be passed around on channels. Only one goroutine should "own" a value at any given time.
         \li Channel (or set of channels) defines a protocol of interaction with a given resource.
         \li E.g. Rob Pike built a concurrent window system represented by 3 channels: graphics, keyboard, mouse. The window system can run recursively on itself to implement a multi-window text editors.
@@ -191,6 +191,7 @@ func main() {
     <section>
        \hgroup \h1 A concurrent windows system
        \img[src=images/cws.png style="margin: 20px 0 0 380px"]
+       \footer \p[class=small] Rob Pike, <a href="http://swtch.com/~rsc/thread/cws.pdf">"A Concurrent Window System,"</a> Computing Systems, 2(2)
     </section>
 
     <section>
@@ -211,10 +212,10 @@ func main() {
     <section>
        \hgroup \h1 A few bits of history
         <ul>
-            \li <em>1978</em>, "Communicating Sequential Processes" paper by Tony Hoare
+            \li <em>1978</em>, C. A. R. Hoare, "Communicating Sequential Processes," Communications of the ACM 21(8)
             \li <em>1983</em>, Occam, the first CSP language, runs on dedicated Transputer chip
-            \li <em>1985 &ndash; 1995</em>, Rob Pike &amp; Ken Thompson worked on the Plan 9 OS and several CSP-based languages
-            \li <em>1998</em>, Erlang open-source release, concurrency based on Actor Model
+            \li <em>1985 &ndash; 1995</em>, Rob Pike &amp; Ken Thompson worked on the Plan 9 OS (Unix's supposed successor) and several CSP-based languages
+            \li <em>1998</em>, Erlang open-source release
             \li <em>2006</em>, Erlang gained support for SMP scheduling
             \li <em>2009</em>, Go went nuts!
             \li <em>July 2010</em>, an implementation of <code>select</code> was prototyped for the Stackless Python module in PyPy
