@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  
+  <!--[if lt IE 9]>
+  <script src="lib/html5shim.js"></script>
+  <![endif]-->  
+  
+  <!-- These are some core styles the slideshow app requires -->
+  <link rel="stylesheet" href="lib/styles.css" />
+  
+  <!-- These are the styles you'll add to make the slides look great -->
+  <link rel="stylesheet" href="css/styles.css" />
+  
+  <title>Go @ Barcamp Saigon</title>
+</head>
+<body>
+  <header>
+    <h1>Go @ Barcamp Saigon</h1>
+    <nav>
+      <ul>
+        <li><button id="prev-btn" title="Previous slide">Previous Slide</button></li>
+        <li><span id="slide-number"></span>/<span id="slide-total"></span></li>
+        <li><button id="next-btn" title="Next Slide">Next Slide</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div id="deck">
+    
+    <section>
+      <hgroup>
+        <h1>Concurrent programming with Go</h1>
+
+</hgroup>
+      <img src="images/gophercolor.png" class="mascot" />
+      <p class="center">
+          "Using the websocket package, [...] was able to add the web
+          viewer on his train ride home."</p>
+
+      <p class="center">
+          "We wrote [...] in two or three beers."</p>
+
+      <footer>
+        <p>July 24, 2011</p>
+        <p>by Trịnh Hải Anh, Web Server Engineer</p>
+        <p><a href="http://twitter.com/chickamade">@chickamade</a> <a href="http://search.twitter.com/search?q=%23barcampsaigon">#barcampsaigon</a></p>
+        <p><a href="http://skunkworks.vn" class="green">Skunkworks.vn</a>
+</p>
+      </footer>
+    </section>
+    
+    <section>
+      <hgroup>
+        <h1>What is Go?</h1>
+</hgroup>
+      
+      <ul>
+        <li>Started at Google by Ken Thompson, Rob Pike, ...</li>
+        <li>Design philosophy: <span class="green">less is more</span>
+</li>
+        <li>Attractive model to write <span class=green>concurrent programs</span></li>
+        <li>Originally focused on system projects: databases, networking servers</li>
+        <li>Has become a general purpose language</li>
+        <li>Makes programming sensible and fun!</li>
+      </ul>
+    </section>
+
+    <section>
+      <hgroup>
+         <h1>Why Go?</h1>
+         <h2>Concurrency!</h2>
+      </hgroup>  
+      
+      <ul>
+            <li>Writing multi-threaded programs is hard</li>
+            <li>Too much emphasis on low-level details: locks, mutexes, ...</li>
+            <li>Asynchronous event callbacks are just a crippled API, where your code run single-threaded :(</li>
+      </ul>
+    </section>
+
+    <section>
+      <hgroup><h1>CSP</h1>
+</hgroup>
+    <ul>
+      <li>
+        In 1978, Tony Hoare introduced the theory of "Communicating Sequential Processes"
+        <blockquote><em>Input, output, and concurrency should be regarded as primitives of programming</em>
+</blockquote>
+        <blockquote><em>Composition of communicating sequential processes is a fundamental program structuring method.</em>
+</blockquote>
+      </li>
+      <li>Occam and Erlang are two well-known languages that stem from CSP</li>
+      <li>In Go, concurrency primitives derive from a different part of the CSP family tree with the powerful notion of channels as first class objects</li>
+    </ul>
+    </section>
+ 
+    <section>
+      <hgroup><h1>Goroutines</h1>
+</hgroup>
+     <ul>
+      <li>Goroutines are functions executing concurrently in the same address space</li>
+      <li>Goroutines are multiplexed onto a set of system threads</li>
+      <li>When a goroutine blocks, such as in a system call, the Go runtime automatically moves other goroutines to another runnable thread</li>
+      <li>It is practical to create hundreds of thousands of goroutines</li>
+     </ul>
+    </section>
+
+    <section>
+      <hgroup><h1>Channels</h1>
+</hgroup>
+      
+      <ul>
+        <li>Goroutines communicate via channels</li>
+        <li>Channel is the way of synchronization: the sender and receiver both unblocks at the rendezvous moment to exchange a datum</li>
+        <li>Channel can be abstracted over network</li>
+      </ul>
+    </section>
+
+    <section>
+      <hgroup><h1>Example & demo</h1>
+</hgroup>
+      
+      <pre>
+func main() {
+      c := make(chan string)
+      d := make(chan string)
+
+      go func() {
+          for {
+              c <- "msg" // sending blocks until there is a receiver
+          }
+      }()
+      go func() {
+          for {
+              d <- ("relayed " + <-c) // process received value, then send it out
+          }
+      }()
+
+      for {
+          select {
+          case val := <-c:
+              println(val)
+          case val := <-d:
+              println(val)
+          }
+      }
+}
+      </pre>
+      
+      <footer><a target="_blank" href="http://golang.org/doc/play/#package%20main%0A%0Afunc%20main%28%29%20%7B%0A%20%20%20%20%20%20c%20%3A%3D%20make%28chan%20string%29%0A%20%20%20%20%20%20d%20%3A%3D%20make%28chan%20string%29%0A%0A%20%20%20%20%20%20go%20func%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20c%20%3C-%20%22msg%22%20//%20sending%20blocks%20until%20there%20is%20a%20receiver%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%28%29%0A%20%20%20%20%20%20go%20func%28%29%20%7B%0A%20%20%20%20%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20d%20%3C-%20%28%22relayed%20%22%20%2B%20%3C-c%29%20//%20process%20received%20value%2C%20then%20send%20it%20out%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%28%29%0A%0A%20%20%20%20%20%20for%20%7B%0A%20%20%20%20%20%20%20%20%20%20select%20%7B%0A%20%20%20%20%20%20%20%20%20%20case%20val%20%3A%3D%20%3C-c%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20println%28val%29%0A%20%20%20%20%20%20%20%20%20%20case%20val%20%3A%3D%20%3C-d%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20println%28val%29%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%7D%0A">Try this example in the Go playground!</a>
+</footer>
+    </section>
+
+    <section>
+      <hgroup><h1>Select</h1>
+</hgroup>
+      
+      <pre>
+              select {
+              case x = <-c:
+                  // x was received from c
+              case d <- y:
+                  // y was sent to d
+              default:
+                  // non-blocking case
+              }
+      </pre>
+      <ul>
+        <li>Every case must be a communication</li>
+        <li>If any communication can proceed, it does; others are ignored</li>
+        <li>If multiple cases are ready, one is selected to proceed at random, fairly</li>
+        <li>If there is no default case, the select statement blocks until one case can proceed</li>
+      </ul>
+    </section>
+
+    <section>
+      <hgroup><h1>The Go Way</h1>
+</hgroup>
+      <blockquote><em>Do not communicate by sharing memory. <br /> Instead, share memory by communicating.</em>
+</blockquote>
+      <ul>
+        <li>Shared values should be passed around on channels. Only one goroutine should "own" a value at any given time.</li>
+        <li>Channel (or set of channels) defines a protocol of interaction with a given resource.</li>
+        <li>E.g. Rob Pike built a concurrent window system represented by 3 channels: graphics, keyboard, mouse. The window system can run recursively on itself to implement a multi-window text editors.</li>
+    </section>
+
+    <section>
+       <hgroup><h1>A concurrent windows system</h1>
+</hgroup>
+       <img src="images/cws.png" style="margin: 20px 0 0 380px" />
+       <footer><p class="small">Rob Pike, <a href="http://swtch.com/~rsc/thread/cws.pdf">"A Concurrent Window System,"</a> Computing Systems, 2(2)</p>
+</footer>
+    </section>
+
+    <section>
+      <hgroup><h1>Networking</h1>
+</hgroup>
+      <pre />
+      // create listening socket
+      for {
+          conn, error := listener.Accept()
+          // handle error
+          go serve(conn)
+      }
+      </pre>
+ 
+    <section>
+      <hgroup><h1>Asynchronous I/O</h1>
+</hgroup>
+      
+      <ul>
+        <li>epoll/kqueue are kernel optimizations to deal with accepting ten thousands of connections (the C10K problem)</li>
+        <li>Many libraries implement these system calls and expose to client a crippled callback API :(</li>
+        <li>Go networking code use epoll/kqueue under the hood, a goroutine simply go to sleep after epoll_wait() just like after any other system call</li>
+       </ul>
+    </section>
+
+    <section>
+      <hgroup><h1>Go is a lot more than concurrency</h1>
+
+</hgroup>
+      <ul>
+        <li>Duck typing: feels like Python</li>
+        <li>Segmented stack: stack overflow not possible</li>
+        <li>Static compilation, single binary deployment</li>
+        <li>Call C/C++ code</li>
+        <li>Run on bare hardware without OS</li>
+        <li>Tools: IDEs, goroutine-aware debugger, profiler, code formatter</li>
+        <li>Standard libraries: zip, jpeg, json, mime/multipart, utf8, websocket, ...</li>
+        <li>Package management: <code>goinstall github.com/user/project</code></li>
+      </ul>
+    </section>
+
+    <section>
+       <hgroup><h1>A few bits of history</h1>
+</hgroup>
+        <ul>
+            <li><em>1978</em>, C. A. R. Hoare, "Communicating Sequential Processes," Communications of the ACM 21(8)</li>
+            <li><em>1983</em>, Occam, the first CSP language, runs on dedicated Transputer chip</li>
+            <li><em>1985 &ndash; 1995</em>, Rob Pike &amp; Ken Thompson worked on the Plan 9 OS (Unix's supposed successor) and several CSP-based languages</li>
+            <li><em>1998</em>, Erlang open-source release</li>
+            <li><em>2006</em>, Erlang gained support for SMP scheduling</li>
+            <li><em>2009</em>, Go went nuts!</li>
+            <li><em>July 2010</em>, an implementation of <code>select</code> was prototyped for the Stackless Python module in PyPy</li>
+        </ul>
+    </section>
+
+    <section>
+      <hgroup><h1>Where to go from here?</h1>
+</hgroup>
+        <ul>
+            <li><a href="http://golang.org/doc/go_tutorial.html">The official Go language tutorial</a>
+</li>
+            <li><a href="http://golang.org/doc/codewalk/">Go codewalks</a>
+</li>
+            <li>go-nuts: the official mailing list</li>
+            <li>#go-nuts IRC channel on freenode.org</li>
+        </ul>
+    </section>
+
+    <section>
+      <hgroup><h1>Thank you! Questions?</h1>
+</hgroup>
+      <div class=twitter>
+        <img src="images/followme.png" />
+        <span class="green"><a href="http://twitter.com/chickamade" class="green">@chickamade</a>
+</span>
+      </div>
+
+      <p class="padded center big">For more information about our company, visit <a href="http://skunkworks.vn/" class=green>Skunkworks.vn.</a> We are hiring!</p>
+      
+      <a href="http://skunkworks.vn/"><img  src="images/skunkworks.png" class="logo" />
+</a>
+    </section>
+
+  </div>
+  <!-- /deck -->
+  
+  <script src="lib/jquery-1.5.2.min.js"></script>
+  <script src="lib/jquery.jswipe-0.1.2.js"></script>  
+  <script src="lib/htmlSlides.js"></script>
+  <script>
+    //Do our business when the DOM is ready for us
+    $(function() {
+      
+      //You can trigger Javascript based on the slide number like this:
+      $('html').bind('newSlide', function(e, id) { 
+        switch(id) {
+        case 1:
+        case 12: $('body').removeClass('roctopus').addClass('loctopus');
+          break;
+        case 16: $('body').removeClass('loctopus roctopus');
+          break;
+        default: $('body').removeClass('loctopus').addClass('roctopus');
+        }
+      });
+
+      //One little option: hideToolbar (boolean; default = false)
+      htmlSlides.init({ hideToolbar: true });
+      
+    });
+  </script>
+  </body>
+</html>
+
