@@ -1,0 +1,15 @@
+This is the source code for my Barcamp Saigon 2011 talks on the Go
+language and concurrency.
+
+To make the HTML file, you'll need http://github.com/aht/nest/.
+
+There are two sample Go programs:
+
+* primitives.go:
+
+    demonstrate Go's concurrency primitives
+
+* echosrv.go:
+
+    a short TCP echo server that spawn multiple goroutines,
+    handle errors and also does logging!
