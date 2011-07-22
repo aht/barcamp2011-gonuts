@@ -188,15 +188,17 @@ func main() {
           go serve(conn)
       }
       </pre>
+    </section>
  
     <section>
       \hgroup \h1 Asynchronous I/O
       
       <ul>
-        \li epoll/kqueue are kernel optimizations to deal with accepting ten thousands of connections (the C10K problem)
+        \li <code>epoll/kqueue</code> are kernel optimizations to deal with accepting ten thousands of connections (the C10K problem)
         \li Many libraries implement these system calls and expose to client a crippled callback API :(
-        \li Go networking code use epoll/kqueue under the hood, a goroutine simply go to sleep after epoll_wait() just like after any other system call
-       </ul>
+        \li Go networking code use <code>epoll/kqueue</code> under the hood: server with goroutines can handle 10K concurrent clients.
+      </ul>
+      \footer \a[href=http://www.kegel.com/c10k.html] http://www.kegel.com/c10k.html
     </section>
 
     <section>
@@ -263,7 +265,7 @@ func main() {
       $('html').bind('newSlide', function(e, id) { 
         switch(id) {
         case 1:
-        case 12: $('body').removeClass('roctopus').addClass('loctopus');
+        case 10: $('body').removeClass('roctopus').addClass('loctopus');
           break;
         case 16: $('body').removeClass('loctopus roctopus');
           break;
