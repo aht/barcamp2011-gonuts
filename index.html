@@ -92,7 +92,6 @@
 </blockquote>
       </li>
       <li>Occam and Erlang are two well-known languages that stem from CSP</li>
-      <li>In Go, concurrency primitives derive from a different part of the CSP family tree with the powerful notion of channels as first class objects</li>
     </ul>
     </section>
  
@@ -100,10 +99,10 @@
       <hgroup><h1>Goroutines</h1>
 </hgroup>
      <ul>
-      <li>Goroutines are functions executing concurrently in the same address space</li>
+      <li>Goroutines are functions and methods executing concurrently in the same address space</li>
+      <li>It is practical to create hundreds of thousands of goroutines (each cost a few KB initially)</li>
       <li>Goroutines are multiplexed onto a set of system threads</li>
-      <li>When a goroutine blocks, such as in a system call, the Go runtime automatically moves other goroutines to another runnable thread</li>
-      <li>It is practical to create hundreds of thousands of goroutines</li>
+      <li>When a goroutine blocks, such as in a system call, the Go runtime automatically moves other goroutines to a spare thread</li>
      </ul>
     </section>
 
@@ -114,7 +113,6 @@
       <ul>
         <li>Goroutines communicate via channels</li>
         <li>Channel is the way of synchronization: the sender and receiver both unblocks at the rendezvous moment to exchange a datum</li>
-        <li>Channel can be abstracted over network</li>
       </ul>
     </section>
 
@@ -181,9 +179,9 @@ func main() {
       <blockquote><em>Do not communicate by sharing memory. <br /> Instead, share memory by communicating.</em>
 </blockquote>
       <ul>
-        <li>Shared values should be passed around on channels. Only one goroutine should "own" a value at any given time.</li>
-        <li>Channel (or set of channels) defines a protocol of interaction with a given resource.</li>
-        <li>E.g. Rob Pike built a concurrent window system represented by 3 channels: graphics, keyboard, mouse. The window system can run recursively on itself to implement a multi-window text editors.</li>
+        <li>Shared values should be passed around on channels</li>
+        <li>Channel (or set of channels) defines a protocol of interaction with a given resource</li>
+        <li>E.g. Rob Pike built a concurrent window system represented by 3 channels: graphics, keyboard, mouse. The window system can run recursively on itself to implement a multi-window text editors</li>
     </section>
 
     <section>
@@ -195,9 +193,9 @@ func main() {
     </section>
 
     <section>
-      <hgroup><h1>TCP echo server demo</h1>
+      <hgroup><h1>A TCP echo server</h1>
 </hgroup>
-      <p>spawns multiple goroutines, does error handling and logging in 19 lines :)</p>
+      <p>spawns multiple goroutines and also does informative logging :)</p>
       <pre />
 import ("net"; "io"; "os"; "log")
 
@@ -212,7 +210,7 @@ func main() {
         go func() {
             defer conn.Close()
             n, err := io.Copy(conn, conn)
-            log.Printf("echoed %d byte to %s<n",>n, conn.RemoteAddr())</n",>
+            log.Printf("echoed %d byte to %s\n", n, conn.RemoteAddr())
             if err != nil {
                 log.Printf("error: %s", err)
             }
@@ -225,12 +223,12 @@ func main() {
     </section>
  
     <section>
-      <hgroup><h1>Asynchronous I/O</h1>
+      <hgroup><h1>Sequential goroutine but non-blocking I/O</h1>
 </hgroup>
       
       <ul>
         <li><code>epoll/kqueue</code> are kernel optimizations to deal with accepting ten thousands of connections (the C10K problem)</li>
-        <li>Many libraries implement these system calls and expose to client a crippled callback API, leading to inefficient single-threaded spaghetti code</li>
+        <li>Many languages implement these system calls as libraries and expose to client a crippled callback API, leading to inefficient single-threaded spaghetti code</li>
         <li>Go networking code use <code>epoll/kqueue</code> under the hood: server with goroutines can handle 10K concurrent clients</li>
       </ul>
       <footer><a href="http://www.kegel.com/c10k.html">http://www.kegel.com/c10k.html</a>
