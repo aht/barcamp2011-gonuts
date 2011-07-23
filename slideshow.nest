@@ -182,8 +182,6 @@ func main() {
       \hgroup \h1 TCP echo server demo
       \p spawns multiple goroutines, does error handling and logging in 19 lines :)
       \pre
-package main
-
 import ("net"; "io"; "os"; "log")
 
 func die(err os.Error) {

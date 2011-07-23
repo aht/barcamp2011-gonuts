@@ -3,8 +3,6 @@ language and concurrency.
 
 The HTML presentation is at http://aht.github.com/barcamp2011-gonuts/.
 
-To make the HTML file, you'll need http://github.com/aht/nest/.
-
 There are two sample Go programs:
 
 * primitives.go:
@@ -13,5 +11,9 @@ There are two sample Go programs:
 
 * echosrv.go:
 
-    a short TCP echo server that spawn multiple goroutines,
+    a TCP echo server that spawn multiple goroutines,
     handle errors and also does logging!
+
+Colophon: to make the HTML file, you'll need some dark art.
+I won't tell you more because it is not finished but
+if you really want take a look at http://github.com/aht/nest/.
